@@ -10,15 +10,14 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-      - name: Fix Missing Files
+      - name: Clean and Build
         run: |
           gradle wrapper --gradle-version 8.5
           chmod +x gradlew
-      - name: Force Build APK
-        run: ./gradlew assembleDebug --no-daemon
+          ./gradlew clean assembleDebug --no-daemon --stacktrace
       - name: Save APK
         uses: actions/upload-artifact@v4
         with:
-          name: Final-Game-APK
+          name: Game-Final-Build
           path: "**/*.apk"
           
