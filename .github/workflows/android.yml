@@ -10,10 +10,14 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-      - name: Build with Gradle
+      - name: Auto-Setup Gradle
         run: |
+          if [ ! -f gradlew ]; then
+            gradle wrapper --gradle-version 8.5
+          fi
           chmod +x gradlew
-          ./gradlew assembleDebug
+      - name: Build with Force
+        run: ./gradlew assembleDebug --no-daemon
       - name: Save APK
         uses: actions/upload-artifact@v4
         with:
