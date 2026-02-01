@@ -12,10 +12,11 @@ jobs:
           distribution: 'temurin'
       - name: Overwrite and Build
         run: |
-          # Puraani config mita kar nayi repositories force karna
+          # Purani files ka asar khatam karna
           rm -f build.gradle settings.gradle
           echo "plugins { id 'com.android.application' version '8.2.2' apply false }" > build.gradle
           echo "include ':app'" > settings.gradle
+          # Naya Gradle Setup
           gradle wrapper --gradle-version 8.5
           chmod +x gradlew
           ./gradlew assembleDebug --no-daemon -Pandroid.useAndroidX=true -Pandroid.enableJetifier=true
