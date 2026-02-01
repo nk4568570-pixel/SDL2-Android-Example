@@ -1,4 +1,4 @@
-name: Shakti-Line1-Fix
+name: Shakti-Final-Success
 on: [push, workflow_dispatch]
 jobs:
   build:
@@ -10,22 +10,26 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-      - name: Fix Line 1 and Build
+      - name: Deep Clean and Build
         run: |
-          # Pehli line ka plugin error hatana
+          # 1. Main build file ko theek karna
           echo "buildscript { repositories { google(); mavenCentral() }; dependencies { classpath 'com.android.tools.build:gradle:8.2.2' } }" > build.gradle
-          echo "apply plugin: 'com.android.application'" >> build.gradle
+          echo "allprojects { repositories { google(); mavenCentral() } }" >> build.gradle
           
-          # Gradle setup
+          # 2. APP folder ke andar ki file ko theek karna (Asli Dushman yahan hai)
+          echo "apply plugin: 'com.android.application'" > app/build.gradle
+          echo "android { compileSdk 34; defaultConfig { applicationId 'com.yourgame.sdl'; minSdk 21; targetSdk 34; versionCode 1; versionName '1.0' } }" >> app/build.gradle
+          
+          # 3. Gradle setup
           gradle wrapper --gradle-version 8.5
           chmod +x gradlew
           
-          # Build shuru (ignore purane errors)
+          # 4. Final Build
           ./gradlew assembleDebug --no-daemon -Pandroid.useAndroidX=true -Pandroid.enableJetifier=true
       - name: Upload APK
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: Airawat-Success-APK
+          name: Airawat-Victory-APK
           path: "**/*.apk"
           
