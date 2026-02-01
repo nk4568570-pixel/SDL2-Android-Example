@@ -1,7 +1,7 @@
 name: Build APK
 on: [push]
 jobs:
-  build:
+  android-build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -10,13 +10,14 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-      - name: Fix and Build
+      - name: Build with Gradle
         run: |
+          gradle wrapper --gradle-version 8.5
           chmod +x gradlew
           ./gradlew assembleDebug --stacktrace
-      - name: Upload APK
+      - name: Save APK
         uses: actions/upload-artifact@v4
         with:
-          name: My-Game-App
-          path: "**/build/outputs/apk/debug/*.apk"
+          name: My-Game-Build
+          path: "**/*.apk"
           
