@@ -1,7 +1,7 @@
 name: Build APK
 on: [push]
 jobs:
-  android-build:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -14,10 +14,10 @@ jobs:
         run: |
           gradle wrapper --gradle-version 8.5
           chmod +x gradlew
-          ./gradlew assembleDebug --stacktrace
-      - name: Save APK
+          ./gradlew assembleDebug --stacktrace || gradle assembleDebug
+      - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: My-Game-Build
+          name: Game-Final-APK
           path: "**/*.apk"
           
