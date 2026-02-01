@@ -10,14 +10,14 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-      - name: Build with Gradle
+      - name: Force Build
         run: |
           gradle wrapper --gradle-version 8.5
           chmod +x gradlew
-          ./gradlew assembleDebug --stacktrace || gradle assembleDebug
+          ./gradlew assembleDebug
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: Game-Final-APK
+          name: My-Game-APK
           path: "**/*.apk"
           
