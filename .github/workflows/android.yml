@@ -1,7 +1,7 @@
 name: Build APK
 on: [push]
 jobs:
-  android-build:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -10,14 +10,14 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-      - name: Force Fix and Build
+      - name: Fix and Build
         run: |
           gradle wrapper --gradle-version 8.5
           chmod +x gradlew
-          ./gradlew assembleDebug --stacktrace --no-daemon -Pandroid.useAndroidX=true -Pandroid.enableJetifier=true
+          ./gradlew assembleDebug --no-daemon --stacktrace -Pandroid.useAndroidX=true -Pandroid.enableJetifier=true
       - name: Save APK
         uses: actions/upload-artifact@v4
         with:
-          name: Final-Game-APK
-          path: "**/build/outputs/apk/debug/*.apk"
+          name: ShooterBox-Game-Final
+          path: "**/*.apk"
           
