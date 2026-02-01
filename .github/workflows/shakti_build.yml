@@ -1,4 +1,4 @@
-name: Shakti-Final-Strike
+name: Shakti-Final-Success
 on: [push, workflow_dispatch]
 jobs:
   build:
@@ -10,15 +10,17 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-      - name: Overwrite and Build
+      - name: Wipe and Fresh Build
         run: |
-          # Purani files ka asar khatam karna
-          rm -f build.gradle settings.gradle
+          # Purani files ko hatana taaki error na aaye
+          rm -f build.gradle settings.gradle gradlew gradlew.bat
+          # Nayi fresh settings banana
           echo "plugins { id 'com.android.application' version '8.2.2' apply false }" > build.gradle
           echo "include ':app'" > settings.gradle
-          # Naya Gradle Setup
+          # Gradle Wrapper setup
           gradle wrapper --gradle-version 8.5
           chmod +x gradlew
+          # Final Build (Errors ko bypass karke)
           ./gradlew assembleDebug --no-daemon -Pandroid.useAndroidX=true -Pandroid.enableJetifier=true
       - name: Upload APK
         uses: actions/upload-artifact@v4
