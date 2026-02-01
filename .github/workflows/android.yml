@@ -10,14 +10,14 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-      - name: Clean and Build
+      - name: Force Fix and Build
         run: |
           gradle wrapper --gradle-version 8.5
           chmod +x gradlew
-          ./gradlew clean assembleDebug --no-daemon
+          ./gradlew assembleDebug --stacktrace --no-daemon -Pandroid.useAndroidX=true -Pandroid.enableJetifier=true
       - name: Save APK
         uses: actions/upload-artifact@v4
         with:
-          name: Final-Game-Build
-          path: "**/*.apk"
+          name: Final-Game-APK
+          path: "**/build/outputs/apk/debug/*.apk"
           
